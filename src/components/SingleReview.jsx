@@ -29,6 +29,7 @@ const SingleReview = () => {
           by {review.owner} on {formatDate(review.created_at)}
         </h4>
         <p>{review.review_body}</p>
+        <p>Likes: {review.votes}</p>
         <div className="likes-and-comments">
           <Collapsible
             id="comments-text"
@@ -38,7 +39,6 @@ const SingleReview = () => {
           </Collapsible>
         </div>
       </div>
-      <span>Likes: {review.votes}</span>
     </main>
   );
 };
