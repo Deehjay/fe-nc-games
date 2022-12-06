@@ -7,6 +7,7 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
+  background-color: #f2e9ee;
 }
 
 body,
@@ -182,10 +183,42 @@ h4 {
 
 .single-review-container p {
   text-align: left;
+  margin-bottom: 5%;
 }
 
 .single-review-container span {
   padding: 10px;
+}
+
+.comment-card {
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.comment-card:first-child {
+  margin-top: 10px;
+}
+
+.comment-card h6 {
+  align-self: flex-start;
+  font-weight: 600;
+}
+
+.comment-card p {
+  font-size: 0.9rem;
+  align-self: flex-start;
+  margin-top: 5px;
+}
+
+.Collapsible__trigger {
+  color: blue;
+  font-style: italic;
+  text-decoration: underline;
 }
 
 @media only screen and (min-width: 768px) {
