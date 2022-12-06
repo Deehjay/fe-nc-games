@@ -9,6 +9,7 @@ const SingleReview = () => {
   const { review_id } = useParams();
 
   useEffect(() => {
+    setIsLoading(true);
     getReviewById(review_id).then((reviewFromApi) => {
       setReview(reviewFromApi);
       setIsLoading(false);
