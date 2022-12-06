@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Collapsible from "react-collapsible";
 import { useParams } from "react-router-dom";
 import { getReviewById } from "../api";
 import { formatDate } from "../utils/utils";
+import Comments from "./Comments";
 
 const SingleReview = () => {
   const [review, setReview] = useState({});
@@ -28,10 +30,15 @@ const SingleReview = () => {
         </h4>
         <p>{review.review_body}</p>
         <div className="likes-and-comments">
-          <span>Comments: {review.comment_count}</span>
-          <span>Likes: {review.votes}</span>
+          <Collapsible
+            id="comments-text"
+            trigger={`Show ${review.comment_count} comments`}
+            triggerWhenOpen={`Hide ${review.comment_count} comments`}>
+            <Comments />
+          </Collapsible>
         </div>
       </div>
+      <span>Likes: {review.votes}</span>
     </main>
   );
 };
