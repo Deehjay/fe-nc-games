@@ -116,6 +116,7 @@ img {
 
 .reviews-list li {
   list-style-type: none;
+  text-decoration: none;
 }
 
 .review-card {
@@ -153,6 +154,40 @@ h4 {
   justify-content: center;
 }
 
+.single-review {
+  height: 100vh;
+}
+
+.likes-and-comments {
+  display: flex;
+  justify-content: space-between;
+}
+
+.single-review-container {
+  padding: 20px;
+}
+
+.single-review-container img {
+  border-radius: 10px;
+}
+
+.single-review-container h2 {
+  font-weight: 600;
+}
+
+.single-review-container h4 {
+  padding: 10px;
+  font-style: italic;
+}
+
+.single-review-container p {
+  text-align: left;
+}
+
+.single-review-container span {
+  padding: 10px;
+}
+
 @media only screen and (min-width: 768px) {
   .reviews-list img {
     height: 40%;
@@ -162,5 +197,14 @@ h4 {
 
   .reviews-list {
     width: 40%;
+  }
+
+  .single-review-container img {
+    height: 35%;
+    width: 35%;
+  }
+
+  .likes-and-comments {
+    justify-content: space-around;
   }
 }
