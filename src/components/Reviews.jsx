@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getReviews } from "../api";
 
 const Reviews = () => {
@@ -20,14 +21,18 @@ const Reviews = () => {
         {reviews.map((review) => {
           return (
             <div className="review-card">
-              <li key={review.review_id}>
-                <img src={review.review_img_url} alt={review.title} />
-                <h3>{review.title}</h3>
-                <h4>{review.owner}</h4>
-                <h5>
-                  Comments: {review.comment_count} Votes: {review.votes}
-                </h5>
-              </li>
+              <Link
+                style={{ textDecoration: "none", color: "black" }}
+                to={`/reviews/${review.review_id}`}>
+                <li key={review.review_id}>
+                  <img src={review.review_img_url} alt={review.title} />
+                  <h3>{review.title}</h3>
+                  <h4>{review.owner}</h4>
+                  <h5>
+                    Comments: {review.comment_count} Votes: {review.votes}
+                  </h5>
+                </li>
+              </Link>
             </div>
           );
         })}
