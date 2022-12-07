@@ -21,3 +21,17 @@ export const getCommentsByReviewId = (review_id) => {
     return res.data.comments;
   });
 };
+
+export const getUsers = () => {
+  return reviewsApi.get("/users").then((res) => {
+    return res.data.users;
+  });
+};
+
+export const patchReview = (review_id, inc_votes) => {
+  return reviewsApi
+    .patch(`/reviews/${review_id}`, { inc_votes })
+    .then((res) => {
+      return res.data.review;
+    });
+};
