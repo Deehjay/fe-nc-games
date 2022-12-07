@@ -21,3 +21,25 @@ export const getCommentsByReviewId = (review_id) => {
     return res.data.comments;
   });
 };
+
+export const getUsers = () => {
+  return reviewsApi.get("/users").then((res) => {
+    return res.data.users;
+  });
+};
+
+export const likeReview = (review_id) => {
+  return reviewsApi
+    .patch(`/reviews/${review_id}`, { inc_votes: 1 })
+    .then((res) => {
+      return res.data.review;
+    });
+};
+
+export const undoLikeReview = (review_id) => {
+  return reviewsApi
+    .patch(`/reviews/${review_id}`, { inc_votes: -1 })
+    .then((res) => {
+      return res.data.review;
+    });
+};
