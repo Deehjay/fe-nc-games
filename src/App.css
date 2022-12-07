@@ -110,9 +110,8 @@ img {
 }
 
 .reviews-list img {
-  height: 40%;
-  width: 80%;
-  border-radius: 10px;
+  width: 100%;
+  border-bottom: 1px solid black;
 }
 
 .reviews-list li {
@@ -122,9 +121,9 @@ img {
 
 .review-card {
   border: 1px solid black;
-  border-radius: 20px;
   margin-bottom: 1rem;
-  padding: 10px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 h3 {
