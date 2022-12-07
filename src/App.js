@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
@@ -9,8 +9,6 @@ import Users from "./components/Users";
 import { UserContext } from "./contexts/users";
 
 function App() {
-  const { user } = useContext(UserContext);
-
   return (
     <div className="App">
       <Nav />
@@ -19,7 +17,7 @@ function App() {
         <Route path="/reviews/:review_id" element={<SingleReview />} />
         <Route path="/login" element={<Users />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
