@@ -12,20 +12,18 @@ const Nav = () => {
 
   return (
     <nav className="nav">
-      <Link to="/">
-        <a href="#">HOME</a>
+      <Link to="/" id="logo">
+        HOUSE OF GAMES
       </Link>
       {isLoggedIn ? (
         <div className="logged-in">
           <img src={user.avatar_url} alt={user.username} />
-          <a href="#" onClick={handleLogout}>
+          <Link to="/" onClick={handleLogout}>
             Logout
-          </a>
+          </Link>
         </div>
       ) : (
-        <Link to="/login">
-          <a href="#">Login</a>
-        </Link>
+        <Link to="/login">Login</Link>
       )}
     </nav>
   );

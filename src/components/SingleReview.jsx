@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Collapsible from "react-collapsible";
 import { BiLike } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { getReviewById, patchReview } from "../api";
@@ -49,7 +48,9 @@ const SingleReview = () => {
   };
 
   return isLoading ? (
-    <div className="loader"></div>
+    <div className="loader-container">
+      <div className="loader"></div>
+    </div>
   ) : (
     <main className="single-review">
       <div className="single-review-container">
@@ -59,42 +60,40 @@ const SingleReview = () => {
           by {review.owner} on {formatDate(review.created_at)}
         </h4>
         <p>{review.review_body}</p>
-        <p>
-          Like this article? -{" "}
+        <p id="like-text">
+          Like this review? -{" "}
           {hasVoted ? (
             <IconContext.Provider
-              value={{ color: "blue", className: "like-clicked" }}>
-              <button className="review-like-button">
-                <BiLike
-                  onClick={() => {
-                    undoLike();
-                  }}
-                />
+              value={{
+                color: "#44C1D4",
+                backgroundColor: "blue",
+                className: "like-clicked",
+              }}>
+              <button
+                onClick={() => {
+                  undoLike();
+                }}
+                className="review-like-button">
+                <BiLike />
+                <span id="votes-voted">{votes}</span>
               </button>
             </IconContext.Provider>
           ) : (
             <IconContext.Provider
-              value={{ color: "black", className: "like-unclicked" }}>
-              <button className="review-like-button">
-                <BiLike
-                  onClick={() => {
-                    like();
-                  }}
-                />
+              value={{ color: "white", className: "like-unclicked" }}>
+              <button
+                onClick={() => {
+                  like();
+                }}
+                className="review-like-button">
+                <BiLike />
+                <span id="votes-unvoted">{votes}</span>
               </button>
             </IconContext.Provider>
           )}
-          <span>{votes}</span>
         </p>
-        <p>{loginPrompt}</p>
-        <div className="likes-and-comments">
-          <Collapsible
-            id="comments-text"
-            trigger={`Show ${review.comment_count} comments`}
-            triggerWhenOpen={`Hide ${review.comment_count} comments`}>
-            <Comments />
-          </Collapsible>
-        </div>
+        <p className="warning">{loginPrompt}</p>
+        <Comments review={review} />
       </div>
     </main>
   );
