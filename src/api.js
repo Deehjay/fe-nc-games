@@ -28,17 +28,9 @@ export const getUsers = () => {
   });
 };
 
-export const likeReview = (review_id) => {
+export const patchReview = (review_id, inc_votes) => {
   return reviewsApi
-    .patch(`/reviews/${review_id}`, { inc_votes: 1 })
-    .then((res) => {
-      return res.data.review;
-    });
-};
-
-export const undoLikeReview = (review_id) => {
-  return reviewsApi
-    .patch(`/reviews/${review_id}`, { inc_votes: -1 })
+    .patch(`/reviews/${review_id}`, { inc_votes })
     .then((res) => {
       return res.data.review;
     });

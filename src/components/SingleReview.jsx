@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Collapsible from "react-collapsible";
 import { BiLike } from "react-icons/bi";
 import { useParams } from "react-router-dom";
-import { getReviewById, likeReview, undoLikeReview } from "../api";
+import { getReviewById, patchReview } from "../api";
 import { formatDate } from "../utils/utils";
 import Comments from "./Comments";
 import { IconContext } from "react-icons";
@@ -32,7 +32,7 @@ const SingleReview = () => {
         return currVotes + 1;
       });
       setHasVoted(true);
-      likeReview(review_id);
+      patchReview(review_id, 1);
     } else {
       setLoginPrompt("Please log in to vote!");
     }
@@ -44,7 +44,7 @@ const SingleReview = () => {
         return currVotes - 1;
       });
       setHasVoted(false);
-      undoLikeReview(review_id);
+      patchReview(review_id, -1);
     }
   };
 
