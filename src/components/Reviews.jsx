@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import Collapsible from "react-collapsible";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getReviews } from "../api";
 import { formatDate } from "../utils/utils";
 import Categories from "./Categories";
@@ -8,13 +9,28 @@ const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { category_slug } = useParams();
+  const [sortParams, setSortParams] = useSearchParams();
+
+  // votes, date(review_id), comment count, flip order asc/desc
 
   useEffect(() => {
-    getReviews(category_slug).then((reviews) => {
+    const sortQuery = sortParams.get("sort_by");
+    const orderQuery = sortParams.get("order");
+    getReviews(category_slug, sortQuery, orderQuery).then((reviews) => {
       setReviews(reviews);
       setIsLoading(false);
     });
-  }, [category_slug]);
+  }, [category_slug, sortParams]);
+
+  const handleSortBy = (e) => {
+    if (e.target.value) {
+      const selectedQuery = JSON.parse(e.target.value);
+      setSortParams({
+        sort_by: selectedQuery.sort_by,
+        order: selectedQuery.order,
+      });
+    }
+  };
 
   return isLoading ? (
     <div className="loader-container">
@@ -23,6 +39,48 @@ const Reviews = () => {
   ) : (
     <main className="reviews-section">
       <div className="categories-sortby-container">
+        <Collapsible
+          classParentString="sort-by"
+          trigger="SORT BY ↓"
+          triggerWhenOpen="SORT BY ↑">
+          <option
+            className="sort-by-option"
+            onClick={handleSortBy}
+            value={JSON.stringify({ sort_by: "votes", order: "desc" })}>
+            Votes - Descending
+          </option>
+          <option
+            className="sort-by-option"
+            onClick={handleSortBy}
+            value={JSON.stringify({ sort_by: "votes", order: "asc" })}>
+            Votes - Ascending
+          </option>
+          <option
+            className="sort-by-option"
+            onClick={handleSortBy}
+            value={JSON.stringify({ sort_by: "created_at", order: "desc" })}>
+            Date - Descending
+          </option>
+          <option
+            className="sort-by-option"
+            onClick={handleSortBy}
+            value={JSON.stringify({ sort_by: "created_at", order: "asc" })}>
+            Date - Ascending
+          </option>
+          <option
+            className="sort-by-option"
+            onClick={handleSortBy}
+            value={JSON.stringify({ sort_by: "comment_count", order: "desc" })}>
+            Comments - Descending
+          </option>
+          <option
+            className="sort-by-option"
+            onClick={handleSortBy}
+            value={JSON.stringify({ sort_by: "comment_count", order: "asc" })}>
+            Comments - Ascending
+          </option>
+        </Collapsible>
+
         <Categories />
       </div>
       <ul className="reviews-list">
