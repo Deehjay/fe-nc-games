@@ -147,6 +147,7 @@ img {
 
 .sort-by__trigger:hover {
   color: #1c1821;
+  cursor: pointer;
 }
 
 option {
@@ -171,6 +172,7 @@ option {
 
 .categories__trigger:hover {
   color: #1c1821;
+  cursor: pointer;
 }
 
 .categories a {
