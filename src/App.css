@@ -134,6 +134,26 @@ img {
 
 /* ------------- Reviews List Styling -------------  */
 
+.categories {
+  color: #3498db;
+  font-family: "Secular One", sans-serif;
+}
+
+.categories__trigger:hover {
+  color: #1c1821;
+}
+
+.categories a {
+  color: #ba8e34;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.categories a:hover {
+  transform: scale(1.2);
+  color: #1c1821;
+}
+
 .reviews-list {
   padding: 10px;
 }

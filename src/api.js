@@ -4,10 +4,12 @@ const reviewsApi = axios.create({
   baseURL: "https://tuxedo-frog.cyclic.app/api",
 });
 
-export const getReviews = () => {
-  return reviewsApi.get("/reviews").then((res) => {
-    return res.data.reviews;
-  });
+export const getReviews = (categoryQuery) => {
+  return reviewsApi
+    .get("/reviews", { params: { category: categoryQuery } })
+    .then((res) => {
+      return res.data.reviews;
+    });
 };
 
 export const getReviewById = (review_id) => {
@@ -42,4 +44,10 @@ export const postComment = (review_id, user, body) => {
     .then((res) => {
       return res.data.comment;
     });
+};
+
+export const getCategories = () => {
+  return reviewsApi.get("/categories").then((res) => {
+    return res.data.categories;
+  });
 };

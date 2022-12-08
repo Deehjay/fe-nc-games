@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getReviews } from "../api";
 import { formatDate } from "../utils/utils";
+import Categories from "./Categories";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { category_slug } = useParams();
 
   useEffect(() => {
-    getReviews().then((reviews) => {
+    getReviews(category_slug).then((reviews) => {
       setReviews(reviews);
       setIsLoading(false);
     });
-  }, []);
+  }, [category_slug]);
 
   return isLoading ? (
     <div className="loader-container">
@@ -20,6 +22,9 @@ const Reviews = () => {
     </div>
   ) : (
     <main className="reviews-section">
+      <div className="categories-sortby-container">
+        <Categories />
+      </div>
       <ul className="reviews-list">
         {reviews.map((review) => {
           return (
