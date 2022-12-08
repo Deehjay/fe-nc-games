@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Categories from "./components/Categories";
 import Footer from "./components/Footer";
 import Nav from "./components/Nav";
 import Reviews from "./components/Reviews";
@@ -14,6 +15,7 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Reviews />} />
+        <Route path="/categories/:category_slug" element={<Reviews />} />
         <Route path="/reviews/:review_id" element={<SingleReview />} />
         <Route path="/login" element={<Users />} />
       </Routes>
