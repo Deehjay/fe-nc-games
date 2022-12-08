@@ -17,7 +17,10 @@ const Comments = ({ review }) => {
   useEffect(() => {
     setIsLoading(true);
     getCommentsByReviewId(review_id).then((commentsFromApi) => {
-      setComments(commentsFromApi);
+      const sortedComments = commentsFromApi.sort((a, b) => {
+        return b.comment_id - a.comment_id;
+      });
+      setComments(sortedComments);
       setIsLoading(false);
     });
   }, [review_id]);
@@ -31,15 +34,14 @@ const Comments = ({ review }) => {
     if (isLoggedIn && commentBody) {
       setCommentBody("");
       setComments((currComments) => {
-        console.log(currComments);
         return [
-          ...currComments,
           {
             author: user.username,
             body: commentBody,
             created_at: new Date(),
             votes: 0,
           },
+          ...currComments,
         ];
       });
       postComment(review_id, user.username, commentBody);
