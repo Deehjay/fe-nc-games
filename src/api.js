@@ -4,9 +4,9 @@ const reviewsApi = axios.create({
   baseURL: "https://tuxedo-frog.cyclic.app/api",
 });
 
-export const getReviews = (categoryQuery) => {
+export const getReviews = (categoryQuery, sort_by, order) => {
   return reviewsApi
-    .get("/reviews", { params: { category: categoryQuery } })
+    .get("/reviews", { params: { category: categoryQuery, sort_by, order } })
     .then((res) => {
       return res.data.reviews;
     });

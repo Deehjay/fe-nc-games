@@ -134,6 +134,37 @@ img {
 
 /* ------------- Reviews List Styling -------------  */
 
+.categories-sortby-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.sort-by {
+  color: #3498db;
+  font-family: "Secular One", sans-serif;
+}
+
+.sort-by__trigger:hover {
+  color: #1c1821;
+  cursor: pointer;
+}
+
+option {
+  cursor: pointer;
+}
+
+.sort-by-option {
+  color: #ba8e34;
+  text-decoration: none;
+  transition: transform 0.2s;
+  font-size: 0.8em;
+}
+
+.sort-by option:hover {
+  color: black;
+}
+
 .categories {
   color: #3498db;
   font-family: "Secular One", sans-serif;
@@ -141,6 +172,7 @@ img {
 
 .categories__trigger:hover {
   color: #1c1821;
+  cursor: pointer;
 }
 
 .categories a {
