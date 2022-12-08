@@ -17,7 +17,7 @@ const Categories = () => {
     <div className="categories-container">
       <div className="categories-collapsible">
         <Collapsible
-          id="categories"
+          classParentString="categories"
           trigger="CATEGORIES ↓"
           triggerWhenOpen="CATEGORIES ↑">
           <div className="category-div">
