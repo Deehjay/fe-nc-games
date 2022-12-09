@@ -51,3 +51,7 @@ export const getCategories = () => {
     return res.data.categories;
   });
 };
+
+export const deleteComment = (comment_id) => {
+  return reviewsApi.delete(`/comments/${comment_id}`);
+};
