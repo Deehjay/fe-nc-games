@@ -13,6 +13,10 @@ html {
   box-sizing: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 body,
 h1,
 h2,
@@ -232,19 +236,14 @@ option {
   padding: 16px;
 }
 
-/* .review-card-text {
-  height: 100%;
-  background-color: red;
-} */
-
-.footer {
+/* .footer {
   width: 100%;
   position: fixed;
   bottom: 0;
   background-color: #f2e9ee;
   height: 5vh;
   border-top: 2px solid black;
-}
+} */
 
 .reviews-section {
   display: flex;
@@ -378,6 +377,10 @@ textarea {
   color: #1476a6;
   font-style: italic;
   text-decoration: underline;
+}
+
+.Collapsible__trigger:hover {
+  cursor: pointer;
 }
 
 .logged-in {

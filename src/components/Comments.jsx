@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/users";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-const Comments = ({ review }) => {
+const Comments = () => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { review_id } = useParams();
@@ -51,25 +51,28 @@ const Comments = ({ review }) => {
     }
   };
 
-  const handleDeleteComment = (comment_id) => {
+  const handleDeleteComment = (comment) => {
     setIsDeleting(true);
-    deleteComment(comment_id).then(() => {
+    deleteComment(comment.comment_id).then(() => {
       setIsDeleting(false);
-      const updatedComments = comments.filter((comment) => {
-        return comment.comment_id !== comment_id;
-      });
-      setComments(updatedComments);
+      comment.body = "COMMENT DELETED";
+      setTimeout(() => {
+        const updatedComments = comments.filter((commentFilter) => {
+          return commentFilter.comment_id !== comment.comment_id;
+        });
+        setComments(updatedComments);
+      }, 4000);
     });
   };
 
-  const handleDeleteButton = (comment_id) => {
+  const handleDeleteButton = (comment) => {
     confirmAlert({
       title: "Delete comment",
-      message: "Are you sure to do delete your comment?",
+      message: "Are you sure you want to delete your comment?",
       buttons: [
         {
           label: "Yes",
-          onClick: () => handleDeleteComment(comment_id),
+          onClick: () => handleDeleteComment(comment),
         },
         {
           label: "No",
@@ -99,7 +102,6 @@ const Comments = ({ review }) => {
         </form>
       </section>
       <Collapsible
-        id="comments-text"
         trigger={`Show ${comments.length} comments`}
         triggerWhenOpen={`Hide ${comments.length} comments`}>
         <section className="comments">
@@ -111,13 +113,16 @@ const Comments = ({ review }) => {
                     {comment.author} - {formatDate(comment.created_at)}
                   </h6>
                   <p>{comment.body}</p>
-                  <span>
-                    <BiLike /> {comment.votes}
-                  </span>
-                  {user.username === comment.author ? (
+                  {comment.body !== "COMMENT DELETED" ? (
+                    <span>
+                      <BiLike /> {comment.votes}
+                    </span>
+                  ) : null}
+                  {user.username === comment.author &&
+                  comment.body !== "COMMENT DELETED" ? (
                     <button
                       onClick={() => {
-                        handleDeleteButton(comment.comment_id);
+                        handleDeleteButton(comment);
                       }}>
                       Delete
                     </button>
