@@ -1,18 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCommentsByReviewId, postComment } from "../api";
+import { deleteComment, getCommentsByReviewId, postComment } from "../api";
 import { formatDate } from "../utils/utils";
 import { BiLike } from "react-icons/bi";
 import Collapsible from "react-collapsible";
 import { UserContext } from "../contexts/users";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
-const Comments = ({ review }) => {
+const Comments = () => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { review_id } = useParams();
   const [commentBody, setCommentBody] = useState("");
   const { user, isLoggedIn } = useContext(UserContext);
   const [loginPrompt, setLoginPrompt] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -33,24 +36,50 @@ const Comments = ({ review }) => {
     e.preventDefault();
     if (isLoggedIn && commentBody) {
       setCommentBody("");
-      setComments((currComments) => {
-        return [
-          {
-            author: user.username,
-            body: commentBody,
-            created_at: new Date(),
-            votes: 0,
-          },
-          ...currComments,
-        ];
-      });
-      postComment(review_id, user.username, commentBody);
+      postComment(review_id, user.username, commentBody).then(
+        (postedComment) => {
+          setComments((currComments) => {
+            return [postedComment, ...currComments];
+          });
+        }
+      );
     } else if (!commentBody) {
       setLoginPrompt("Comment body must not be empty!");
     } else {
       setCommentBody("");
       setLoginPrompt("Please log in to comment");
     }
+  };
+
+  const handleDeleteComment = (comment) => {
+    setIsDeleting(true);
+    deleteComment(comment.comment_id).then(() => {
+      setIsDeleting(false);
+      comment.body = "COMMENT DELETED";
+      setTimeout(() => {
+        const updatedComments = comments.filter((commentFilter) => {
+          return commentFilter.comment_id !== comment.comment_id;
+        });
+        setComments(updatedComments);
+      }, 4000);
+    });
+  };
+
+  const handleDeleteButton = (comment) => {
+    confirmAlert({
+      title: "Delete comment",
+      message: "Are you sure you want to delete your comment?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => handleDeleteComment(comment),
+        },
+        {
+          label: "No",
+          onClick: null,
+        },
+      ],
+    });
   };
 
   return isLoading ? (
@@ -73,7 +102,6 @@ const Comments = ({ review }) => {
         </form>
       </section>
       <Collapsible
-        id="comments-text"
         trigger={`Show ${comments.length} comments`}
         triggerWhenOpen={`Hide ${comments.length} comments`}>
         <section className="comments">
@@ -85,9 +113,23 @@ const Comments = ({ review }) => {
                     {comment.author} - {formatDate(comment.created_at)}
                   </h6>
                   <p>{comment.body}</p>
-                  <span>
-                    <BiLike /> {comment.votes}
-                  </span>
+                  {comment.body !== "COMMENT DELETED" ? (
+                    <span>
+                      <BiLike /> {comment.votes}
+                    </span>
+                  ) : null}
+                  {user.username === comment.author &&
+                  comment.body !== "COMMENT DELETED" ? (
+                    <button
+                      onClick={() => {
+                        handleDeleteButton(comment);
+                      }}>
+                      Delete
+                    </button>
+                  ) : null}
+                  {isDeleting && user.username === comment.author ? (
+                    <p>Deleting comment...</p>
+                  ) : null}
                 </li>
               );
             })}
