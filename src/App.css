@@ -456,3 +456,15 @@ textarea {
     justify-content: space-around;
   }
 }
+
+/* ------------- Post review styling -------------  */
+
+.post-review {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-error {
+  color: red;
+}
