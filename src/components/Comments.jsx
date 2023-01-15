@@ -7,6 +7,7 @@ import Collapsible from "react-collapsible";
 import { UserContext } from "../contexts/users";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import ErrorPage from "./ErrorPage";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -16,16 +17,21 @@ const Comments = () => {
   const { user, isLoggedIn } = useContext(UserContext);
   const [loginPrompt, setLoginPrompt] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
-    getCommentsByReviewId(review_id).then((commentsFromApi) => {
-      const sortedComments = commentsFromApi.sort((a, b) => {
-        return b.comment_id - a.comment_id;
+    getCommentsByReviewId(review_id)
+      .then((commentsFromApi) => {
+        const sortedComments = commentsFromApi.sort((a, b) => {
+          return b.comment_id - a.comment_id;
+        });
+        setComments(sortedComments);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setErr({ err });
       });
-      setComments(sortedComments);
-      setIsLoading(false);
-    });
   }, [review_id]);
 
   const handleCommentTextChange = (e) => {
@@ -81,6 +87,10 @@ const Comments = () => {
       ],
     });
   };
+
+  if (err) {
+    return <ErrorPage message={err} />;
+  }
 
   return isLoading ? (
     <div className="loader-container">
