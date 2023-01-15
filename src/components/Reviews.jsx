@@ -4,6 +4,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getReviews } from "../api";
 import { formatDate } from "../utils/utils";
 import Categories from "./Categories";
+import ErrorPage from "./ErrorPage";
 import Header from "./Header";
 
 const Reviews = () => {
@@ -11,16 +12,22 @@ const Reviews = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { category_slug } = useParams();
   const [sortParams, setSortParams] = useSearchParams();
-
-  // votes, date(review_id), comment count, flip order asc/desc
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
     const sortQuery = sortParams.get("sort_by");
     const orderQuery = sortParams.get("order");
-    getReviews(category_slug, sortQuery, orderQuery).then((reviews) => {
-      setReviews(reviews);
-      setIsLoading(false);
-    });
+    getReviews(category_slug, sortQuery, orderQuery)
+      .then((reviews) => {
+        setErr(null);
+        setReviews(reviews);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+        setErr(err);
+      });
   }, [category_slug, sortParams]);
 
   const handleSortBy = (e) => {
@@ -40,6 +47,7 @@ const Reviews = () => {
   ) : (
     <>
       <Header />
+      {err ? <p>something went wrong..</p> : null}
       <main className="reviews-section">
         <div className="categories-sortby-container">
           <Collapsible
