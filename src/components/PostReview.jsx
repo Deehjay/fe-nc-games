@@ -4,22 +4,34 @@ import { Form, Button } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../contexts/users";
 import { Navigate } from "react-router-dom";
+import Modal from "react-modal";
 
 const PostReview = () => {
+  let subtitle;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const { user, isLoggedIn } = useContext(UserContext);
   const [categories, setCategories] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [err, setErr] = useState(null);
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
 
   useEffect(() => {
-    setIsLoading(true);
     getCategories().then((categoriesFromApi) => {
       setCategories(categoriesFromApi);
-      setIsLoading(false);
     });
   }, []);
 
@@ -28,9 +40,6 @@ const PostReview = () => {
     return formattedSlug.charAt(0).toUpperCase() + formattedSlug.slice(1);
   };
 
-  // onSubmit is working - needs some form of popup or other indication to tell the user that the review has been
-  // posted successfully or if there was an error
-
   const onSubmit = (data) => {
     postReview(
       user.username,
@@ -38,13 +47,35 @@ const PostReview = () => {
       data.review_body,
       data.designer,
       data.category
-    ).then((postedReview) => {
-      console.log(postedReview);
-    });
+    )
+      .then(() => {
+        setModalIsOpen(true);
+      })
+      .catch((err) => {
+        setErr({ err });
+        setModalIsOpen(true);
+      });
+  };
+
+  const afterOpenModal = () => {
+    subtitle.style.color = "#f00";
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return isLoggedIn ? (
     <section className="post-review">
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}>
+        {err
+          ? "Woops! Something went wrong. Please try again later."
+          : "Your review has been submitted successfully!"}
+      </Modal>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Field>
           <label htmlFor="title">Title</label>
@@ -119,8 +150,10 @@ const PostReview = () => {
       </Form>
     </section>
   ) : (
-    <div className="loader-container">
-      <div className="loader"></div>
+    <div className="login-prompt-container">
+      <div className="login-prompt">
+        <h2>Please log in to submit a review.</h2>
+      </div>
     </div>
   );
 };
