@@ -8,6 +8,7 @@ import { UserContext } from "../contexts/users";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import ErrorPage from "./ErrorPage";
+import Modal from "react-modal";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -18,6 +19,18 @@ const Comments = () => {
   const [loginPrompt, setLoginPrompt] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [err, setErr] = useState(null);
+  const [commentErr, setCommentErr] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,6 +62,10 @@ const Comments = () => {
           });
         }
       );
+      setModalIsOpen(true).catch((err) => {
+        setCommentErr({ err });
+        setModalIsOpen(true);
+      });
     } else if (!commentBody) {
       setLoginPrompt("Comment body must not be empty!");
     } else {
@@ -59,16 +76,21 @@ const Comments = () => {
 
   const handleDeleteComment = (comment) => {
     setIsDeleting(true);
-    deleteComment(comment.comment_id).then(() => {
-      setIsDeleting(false);
-      comment.body = "COMMENT DELETED";
-      setTimeout(() => {
-        const updatedComments = comments.filter((commentFilter) => {
-          return commentFilter.comment_id !== comment.comment_id;
-        });
-        setComments(updatedComments);
-      }, 4000);
-    });
+    deleteComment(comment.comment_id)
+      .then(() => {
+        setIsDeleting(false);
+        comment.body = "COMMENT DELETED";
+        setTimeout(() => {
+          const updatedComments = comments.filter((commentFilter) => {
+            return commentFilter.comment_id !== comment.comment_id;
+          });
+          setComments(updatedComments);
+        }, 4000);
+      })
+      .catch((err) => {
+        setCommentErr({ err });
+        setModalIsOpen(true);
+      });
   };
 
   const handleDeleteButton = (comment) => {
@@ -88,6 +110,10 @@ const Comments = () => {
     });
   };
 
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   if (err) {
     return <ErrorPage message={err} />;
   }
@@ -99,6 +125,14 @@ const Comments = () => {
   ) : (
     <div className="likes-and-comments">
       <section className="post-comment">
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}>
+          {commentErr
+            ? "Woops! Something went wrong. Please try again later."
+            : "Your comment has been posted successfully!"}
+        </Modal>
         <form id="comment-form" onSubmit={handlePostComment}>
           <textarea
             onChange={handleCommentTextChange}
@@ -112,8 +146,16 @@ const Comments = () => {
         </form>
       </section>
       <Collapsible
-        trigger={`Show ${comments.length} comments`}
-        triggerWhenOpen={`Hide ${comments.length} comments`}>
+        trigger={
+          comments.length
+            ? `Show ${comments.length} comments`
+            : "Looks like there's no comments here. Be the first!"
+        }
+        triggerWhenOpen={
+          comments.length
+            ? `Hide ${comments.length} comments`
+            : "Looks like there's no comments here. Be the first!"
+        }>
         <section className="comments">
           <ul className="comments-list">
             {comments.map((comment) => {
