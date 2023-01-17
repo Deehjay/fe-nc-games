@@ -32,15 +32,15 @@ const Categories = () => {
           triggerWhenOpen="CATEGORIES ↑">
           <div className="category-div">
             <ul className="category-list">
-              <li className="category-item" key="all">
-                <h5>
+              <li className="category-item" key={"all"}>
+                <h5 key={"all"}>
                   <Link to="/">All</Link>
                 </h5>
               </li>
               {categories.map((category) => {
                 return (
                   <li className="category-item" key={category.category_id}>
-                    <h5>
+                    <h5 key={category.category_id}>
                       <Link to={`/categories/${category.slug}`}>
                         {formatCategory(category.slug)}
                       </Link>

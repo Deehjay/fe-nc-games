@@ -89,7 +89,7 @@ const SingleReview = () => {
             </IconContext.Provider>
           ) : (
             <IconContext.Provider
-              value={{ color: "white", className: "like-unclicked" }}>
+              value={{ color: "#223d30", className: "like-unclicked" }}>
               <button
                 onClick={() => {
                   like();

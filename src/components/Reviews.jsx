@@ -7,6 +7,8 @@ import Categories from "./Categories";
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
 import Loading from "./Loading";
+import CommentsComponent from "./Svg/CommentsComponent";
+import LikesComponent from "./Svg/LikesComponent";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -118,9 +120,22 @@ const Reviews = () => {
                       <h4>
                         {review.owner} - {formatDate(review.created_at)}
                       </h4>
-                      <h5>
-                        Comments: {review.comment_count} Votes: {review.votes}
-                      </h5>
+                      <div className="likes-and-comments-section">
+                        <span>
+                          <span className="icon">
+                            <CommentsComponent />
+                          </span>
+                          <span class="text" id="comment-count">
+                            {review.comment_count}
+                          </span>
+                        </span>
+                        <span>
+                          <span className="icon">
+                            <LikesComponent />
+                          </span>
+                          <span class="text">{review.votes}</span>
+                        </span>
+                      </div>
                     </div>
                   </li>
                 </Link>
