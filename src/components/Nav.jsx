@@ -1,13 +1,25 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/users";
 
 const Nav = () => {
   const { user, setUser, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLogout = () => {
     setUser({ username: "Guest" });
     setIsLoggedIn(false);
+    localStorage.clear();
+    navigate("/");
   };
 
   return (
