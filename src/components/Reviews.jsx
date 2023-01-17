@@ -51,7 +51,7 @@ const Reviews = () => {
   ) : (
     <>
       <Header />
-      <main className="reviews-section">
+      <main className="reviews-section" id="reviews">
         <div className="categories-sortby-container">
           <Collapsible
             classParentString="sort-by"
@@ -106,40 +106,40 @@ const Reviews = () => {
         <ul className="reviews-list">
           {reviews.map((review) => {
             return (
-              <div className="review-card" key={review.review_id}>
-                <Link
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                  }}
-                  to={`/reviews/${review.review_id}`}>
-                  <li key={review.review_id}>
-                    <img src={review.review_img_url} alt={review.title} />
+              <li className="review-card" key={review.review_id}>
+                <Link to={`/reviews/${review.review_id}`}>
+                  <div className="revew-inner">
+                    <div
+                      className="image"
+                      style={{
+                        backgroundImage: 'url("' + review.review_img_url + '")',
+                      }}></div>
                     <div className="review-card-text">
                       <h3>{review.title}</h3>
                       <h4>
                         {review.owner} - {formatDate(review.created_at)}
                       </h4>
                       <div className="likes-and-comments-section">
-                        <span>
+                        <div className="icon-ground">
                           <span className="icon">
                             <CommentsComponent />
                           </span>
-                          <span class="text" id="comment-count">
+                          <span className="text" id="comment-count">
                             {review.comment_count}
                           </span>
-                        </span>
-                        <span>
+                        </div>
+
+                        <div className="icon-ground">
                           <span className="icon">
                             <LikesComponent />
                           </span>
-                          <span class="text">{review.votes}</span>
-                        </span>
+                          <span className="text">{review.votes}</span>
+                        </div>
                       </div>
                     </div>
-                  </li>
+                  </div>
                 </Link>
-              </div>
+              </li>
             );
           })}
         </ul>
