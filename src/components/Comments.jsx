@@ -115,7 +115,7 @@ const Comments = () => {
   };
 
   if (err) {
-    return <ErrorPage message={err} />;
+    return <ErrorPage message={err.message} />;
   }
 
   return isLoading ? (

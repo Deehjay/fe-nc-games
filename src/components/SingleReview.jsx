@@ -6,6 +6,7 @@ import { formatDate } from "../utils/utils";
 import Comments from "./Comments";
 import { IconContext } from "react-icons";
 import { UserContext } from "../contexts/users";
+import ErrorPage from "./ErrorPage";
 
 const SingleReview = () => {
   const [review, setReview] = useState({});
@@ -15,14 +16,19 @@ const SingleReview = () => {
   const [hasVoted, setHasVoted] = useState(false);
   const { isLoggedIn } = useContext(UserContext);
   const [loginPrompt, setLoginPrompt] = useState(null);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
-    getReviewById(review_id).then((reviewFromApi) => {
-      setReview(reviewFromApi);
-      setVotes(reviewFromApi.votes);
-      setIsLoading(false);
-    });
+    getReviewById(review_id)
+      .then((reviewFromApi) => {
+        setReview(reviewFromApi);
+        setVotes(reviewFromApi.votes);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setErr({ err });
+      });
   }, [review_id]);
 
   const like = () => {
@@ -46,6 +52,10 @@ const SingleReview = () => {
       patchReview(review_id, -1);
     }
   };
+
+  if (err) {
+    return <ErrorPage message={err.message} />;
+  }
 
   return isLoading ? (
     <div className="loader-container">

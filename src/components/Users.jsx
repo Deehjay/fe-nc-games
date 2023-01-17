@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../api";
 import { UserContext } from "../contexts/users";
+import ErrorPage from "./ErrorPage";
 
 const Users = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,12 +10,17 @@ const Users = () => {
   const { setUser } = useContext(UserContext);
   const navigateHome = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
-    getUsers().then((users) => {
-      setUsers(users);
-      setIsLoading(false);
-    });
+    getUsers()
+      .then((users) => {
+        setUsers(users);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setErr({ err });
+      });
   }, []);
 
   const handleSignIn = (user) => {
@@ -22,6 +28,10 @@ const Users = () => {
     setIsLoggedIn(true);
     navigateHome("/");
   };
+
+  if (err) {
+    return <ErrorPage message={err.message} />;
+  }
 
   return isLoading ? (
     <div className="loader-container">

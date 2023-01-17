@@ -25,7 +25,6 @@ const Reviews = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err);
         setErr(err);
       });
   }, [category_slug, sortParams]);
@@ -40,6 +39,10 @@ const Reviews = () => {
     }
   };
 
+  if (err) {
+    return <ErrorPage message={err.message} />;
+  }
+
   return isLoading ? (
     <div className="loader-container">
       <div className="loader"></div>
@@ -47,7 +50,6 @@ const Reviews = () => {
   ) : (
     <>
       <Header />
-      {err ? <p>something went wrong..</p> : null}
       <main className="reviews-section">
         <div className="categories-sortby-container">
           <Collapsible

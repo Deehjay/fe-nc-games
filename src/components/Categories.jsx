@@ -3,15 +3,25 @@ import Collapsible from "react-collapsible";
 import { Link } from "react-router-dom";
 import { getCategories } from "../api";
 import { formatCategory } from "../utils/utils";
+import ErrorPage from "./ErrorPage";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
-    getCategories().then((categoriesFromApi) => {
-      setCategories(categoriesFromApi);
-    });
+    getCategories()
+      .then((categoriesFromApi) => {
+        setCategories(categoriesFromApi);
+      })
+      .catch((err) => {
+        setErr({ err });
+      });
   }, []);
+
+  if (err) {
+    return <ErrorPage message={err.message} />;
+  }
 
   return (
     <div className="categories-container">

@@ -5,6 +5,7 @@ import { UserContext } from "../contexts/users";
 import { formatDate } from "../utils/utils";
 import Modal from "react-modal";
 import LoginPrompt from "./LoginPrompt";
+import ErrorPage from "./ErrorPage";
 
 const User = () => {
   const [reviews, setReviews] = useState([]);
@@ -25,13 +26,17 @@ const User = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getReviews().then((reviewsFromApi) => {
-      const filteredReviews = reviewsFromApi.filter((review) => {
-        return review.owner === user.username;
+    getReviews()
+      .then((reviewsFromApi) => {
+        const filteredReviews = reviewsFromApi.filter((review) => {
+          return review.owner === user.username;
+        });
+        setReviews(filteredReviews);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setErr({ err });
       });
-      setReviews(filteredReviews);
-      setIsLoading(false);
-    });
   }, [user.username]);
 
   if (!isLoggedIn) {
@@ -57,6 +62,10 @@ const User = () => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  if (err) {
+    return <ErrorPage message={err.message} />;
+  }
 
   return isLoading ? (
     <div className="loader-container">
