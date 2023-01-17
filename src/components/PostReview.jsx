@@ -3,8 +3,10 @@ import { getCategories, postReview } from "../api";
 import { Form, Button } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../contexts/users";
-import { Navigate } from "react-router-dom";
 import Modal from "react-modal";
+import LoginPrompt from "./LoginPrompt";
+import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
 
 const PostReview = () => {
   let subtitle;
@@ -17,6 +19,8 @@ const PostReview = () => {
   const [categories, setCategories] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [err, setErr] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const customStyles = {
     content: {
@@ -30,9 +34,16 @@ const PostReview = () => {
   };
 
   useEffect(() => {
-    getCategories().then((categoriesFromApi) => {
-      setCategories(categoriesFromApi);
-    });
+    setIsLoading(true);
+    getCategories()
+      .then((categoriesFromApi) => {
+        setCategories(categoriesFromApi);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setErr({ err });
+        setIsLoading(false);
+      });
   }, []);
 
   const formatCategory = (slug) => {
@@ -48,8 +59,11 @@ const PostReview = () => {
       data.designer,
       data.category
     )
-      .then(() => {
+      .then((postedReview) => {
         setModalIsOpen(true);
+        setTimeout(() => {
+          navigate(`/reviews/${postedReview.review_id}`);
+        }, 2000);
       })
       .catch((err) => {
         setErr({ err });
@@ -65,7 +79,13 @@ const PostReview = () => {
     setModalIsOpen(false);
   };
 
-  return isLoggedIn ? (
+  if (!isLoggedIn) {
+    return <LoginPrompt />;
+  }
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <section className="post-review">
       <Modal
         isOpen={modalIsOpen}
@@ -149,12 +169,6 @@ const PostReview = () => {
         <Button type="submit">Submit</Button>
       </Form>
     </section>
-  ) : (
-    <div className="login-prompt-container">
-      <div className="login-prompt">
-        <h2>Please log in to submit a review.</h2>
-      </div>
-    </div>
   );
 };
 
