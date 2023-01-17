@@ -7,7 +7,6 @@ import Modal from "react-modal";
 import LoginPrompt from "./LoginPrompt";
 
 const User = () => {
-  let subtitle;
   const [reviews, setReviews] = useState([]);
   const { user, isLoggedIn } = useContext(UserContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -52,11 +51,8 @@ const User = () => {
       .catch((err) => {
         setModalIsOpen(true);
         setErr({ err });
-        console.log(err);
       });
   };
-
-  const afterOpenModal = () => {};
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -70,7 +66,6 @@ const User = () => {
     <section className="profile-section">
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}>
         {err
