@@ -27,6 +27,7 @@ const Users = () => {
   const handleSignIn = (user) => {
     setUser(user);
     setIsLoggedIn(true);
+    localStorage.setItem("user", JSON.stringify(user));
     navigateHome("/");
   };
 
