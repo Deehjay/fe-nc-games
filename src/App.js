@@ -5,6 +5,7 @@ import Nav from "./components/Nav";
 import PostReview from "./components/PostReview";
 import Reviews from "./components/Reviews";
 import SingleReview from "./components/SingleReview";
+import User from "./components/User";
 import Users from "./components/Users";
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
         <Route path="/categories/:category_slug" element={<Reviews />} />
         <Route path="/reviews/:review_id" element={<SingleReview />} />
         <Route path="/login" element={<Users />} />
-        <Route path="/postreview" element={<PostReview />} />
+        <Route path="/post-review" element={<PostReview />} />
+        <Route path="my-profile" element={<User />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       {/* <Footer /> */}

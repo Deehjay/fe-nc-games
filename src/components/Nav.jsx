@@ -17,8 +17,10 @@ const Nav = () => {
       </Link>
       {isLoggedIn ? (
         <div className="logged-in">
-          <img src={user.avatar_url} alt={user.username} />
-          <Link to="/postreview">+</Link>
+          <Link to="/my-profile">
+            <img src={user.avatar_url} alt={user.username} />
+          </Link>
+          <Link to="/post-review">+</Link>
           <Link to="/" onClick={handleLogout}>
             Logout
           </Link>
