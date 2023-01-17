@@ -63,3 +63,7 @@ export const getCategories = () => {
 export const deleteComment = (comment_id) => {
   return reviewsApi.delete(`/comments/${comment_id}`);
 };
+
+export const deleteReview = (review_id) => {
+  return reviewsApi.delete(`/reviews/${review_id}`);
+};
