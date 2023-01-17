@@ -6,6 +6,7 @@ import { formatDate } from "../utils/utils";
 import Modal from "react-modal";
 import LoginPrompt from "./LoginPrompt";
 import ErrorPage from "./ErrorPage";
+import Loading from "./Loading";
 
 const User = () => {
   const [reviews, setReviews] = useState([]);
@@ -68,9 +69,7 @@ const User = () => {
   }
 
   return isLoading ? (
-    <div className="loader-container">
-      <div className="loader"></div>
-    </div>
+    <Loading />
   ) : (
     <section className="profile-section">
       <Modal

@@ -7,6 +7,7 @@ import Comments from "./Comments";
 import { IconContext } from "react-icons";
 import { UserContext } from "../contexts/users";
 import ErrorPage from "./ErrorPage";
+import Loading from "./Loading";
 
 const SingleReview = () => {
   const [review, setReview] = useState({});
@@ -58,9 +59,7 @@ const SingleReview = () => {
   }
 
   return isLoading ? (
-    <div className="loader-container">
-      <div className="loader"></div>
-    </div>
+    <Loading />
   ) : (
     <main className="single-review">
       <div className="single-review-container">
