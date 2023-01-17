@@ -6,6 +6,7 @@ import { formatDate } from "../utils/utils";
 import Categories from "./Categories";
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
+import Loading from "./Loading";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -44,9 +45,7 @@ const Reviews = () => {
   }
 
   return isLoading ? (
-    <div className="loader-container">
-      <div className="loader"></div>
-    </div>
+    <Loading />
   ) : (
     <>
       <Header />

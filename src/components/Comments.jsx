@@ -9,6 +9,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import ErrorPage from "./ErrorPage";
 import Modal from "react-modal";
+import Loading from "./Loading";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -119,9 +120,7 @@ const Comments = () => {
   }
 
   return isLoading ? (
-    <div className="loader-container">
-      <div className="loader"></div>
-    </div>
+    <Loading />
   ) : (
     <div className="likes-and-comments">
       <section className="post-comment">

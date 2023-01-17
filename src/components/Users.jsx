@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { getUsers } from "../api";
 import { UserContext } from "../contexts/users";
 import ErrorPage from "./ErrorPage";
+import Loading from "./Loading";
 
 const Users = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const { setUser } = useContext(UserContext);
   const navigateHome = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const { setIsLoggedIn } = useContext(UserContext);
   const [err, setErr] = useState(null);
 
   useEffect(() => {
@@ -34,9 +35,7 @@ const Users = () => {
   }
 
   return isLoading ? (
-    <div className="loader-container">
-      <div className="loader"></div>
-    </div>
+    <Loading />
   ) : (
     <main className="users-main">
       <h2>Users List</h2>
