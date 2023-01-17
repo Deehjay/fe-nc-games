@@ -4,6 +4,8 @@ import { getUsers } from "../api";
 import { UserContext } from "../contexts/users";
 import ErrorPage from "./ErrorPage";
 import Loading from "./Loading";
+import { Form, Button } from "semantic-ui-react";
+import { useForm } from "react-hook-form";
 
 const Users = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,6 +14,12 @@ const Users = () => {
   const navigateHome = useNavigate();
   const { setIsLoggedIn } = useContext(UserContext);
   const [err, setErr] = useState(null);
+  let subtitle;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     getUsers()
@@ -24,10 +32,12 @@ const Users = () => {
       });
   }, []);
 
-  const handleSignIn = (user) => {
-    setUser(user);
+  const onSubmit = (data) => {
+    console.log(data);
+    const foundUser = users.find((user) => user.username === data.user);
+    setUser(foundUser);
     setIsLoggedIn(true);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(foundUser));
     navigateHome("/");
   };
 
@@ -38,24 +48,22 @@ const Users = () => {
   return isLoading ? (
     <Loading />
   ) : (
-    <main className="users-main">
-      <h2>Users List</h2>
-      <ul className="users-list">
-        {users.map((user) => {
-          return (
-            <li className="user-card" key={user.username}>
-              <img src={user.avatar_url} alt={user.username} />
-              <h3>{user.username}</h3>
-              <button
-                onClick={() => {
-                  handleSignIn(user);
-                }}>
-                Select user
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+    <main className="login">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Field>
+          <label htmlFor="users">Select a user:</label>
+          <select name="users" {...register("user", { required: true })}>
+            <option value="" selected disabled hidden>
+              Select...
+            </option>
+            {users.map((user) => {
+              return <option value={user.username}>{user.username}</option>;
+            })}
+          </select>
+        </Form.Field>
+        {errors.user && <p className="form-error">Please select a user</p>}
+        <Button type="submit">Log In</Button>
+      </Form>
     </main>
   );
 };
