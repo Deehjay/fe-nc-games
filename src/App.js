@@ -18,7 +18,7 @@ function App() {
         <Route path="/reviews/:review_id" element={<SingleReview />} />
         <Route path="/login" element={<Users />} />
         <Route path="/post-review" element={<PostReview />} />
-        <Route path="my-profile" element={<User />} />
+        <Route path="/my-profile" element={<User />} />
         <Route path="*" element={<ErrorPage message={"404 Not Found"} />} />
       </Routes>
       {/* <Footer /> */}
