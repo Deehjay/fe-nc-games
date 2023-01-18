@@ -33,14 +33,14 @@ const Categories = () => {
           <div className="category-div">
             <ul className="category-list">
               <li className="category-item" key={"all"}>
-                <h5 key={"all"}>
+                <h5>
                   <Link to="/">All</Link>
                 </h5>
               </li>
               {categories.map((category) => {
                 return (
-                  <li className="category-item" key={category.category_id}>
-                    <h5 key={category.category_id}>
+                  <li className="category-item" key={category.slug}>
+                    <h5>
                       <Link to={`/categories/${category.slug}`}>
                         {formatCategory(category.slug)}
                       </Link>

@@ -7,6 +7,8 @@ import Modal from "react-modal";
 import LoginPrompt from "./LoginPrompt";
 import ErrorPage from "./ErrorPage";
 import Loading from "./Loading";
+import CommentsComponent from "./Svg/CommentsComponent";
+import LikesComponent from "./Svg/LikesComponent";
 
 const User = () => {
   const [reviews, setReviews] = useState([]);
@@ -45,7 +47,6 @@ const User = () => {
   }
 
   const handleDeleteReview = (review_id) => {
-    console.log(review_id);
     deleteReview(review_id)
       .then(() => {
         const updatedReviews = reviews.filter((reviewFilter) => {
@@ -71,7 +72,7 @@ const User = () => {
   return isLoading ? (
     <Loading />
   ) : (
-    <section className="profile-section">
+    <>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -80,57 +81,144 @@ const User = () => {
           ? "Woops! Something went wrong. Please try again later."
           : "Your review has been deleted successfully!"}
       </Modal>
-      <div className="profile-container">
+      <main className="reviews-section" id="reviews">
         <div className="profile-info">
-          <h2>{user.username}</h2>
-          <h3>{user.name}</h3>
-          <img
-            src={user.avatar_url}
-            alt={user.username}
-            style={{ height: "100px", width: "100px" }}
-          />
+          <div className="profile-info-inner">
+            <h2>{user.username}</h2>
+            <h3>{user.name}</h3>
+            <img
+              src={user.avatar_url}
+              alt={user.username}
+              style={{ height: "100px", width: "100px" }}
+            />
+          </div>
         </div>
-        <div className="profile-articles">
-          <ul className="profile-review-list">
-            {reviews.map((review) => {
-              return (
-                <div className="profile-review-card" key={review.review_id}>
-                  <Link
-                    style={{
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    to={`/reviews/${review.review_id}`}></Link>
-                  <li key={review.review_id}>
-                    <img
-                      src={review.review_img_url}
-                      alt={review.title}
-                      style={{ height: "100px", width: "100px" }}
-                    />
-                    <div className="review-card-text">
-                      <h3>{review.title}</h3>
-                      <h4>
-                        {review.owner} - {formatDate(review.created_at)}
-                      </h4>
-                      <h5>
-                        Comments: {review.comment_count} Votes: {review.votes}
-                      </h5>
-                      <button
-                        className="post-comment-button"
-                        onClick={() => {
-                          handleDeleteReview(review.review_id);
-                        }}>
-                        Delete
-                      </button>
+        <h2>My Reviews</h2>
+        <ul className="reviews-list">
+          {reviews.map((review) => {
+            return (
+              <>
+                <li className="review-card" key={review.review_id}>
+                  <Link to={`/reviews/${review.review_id}`}>
+                    <div className="revew-inner">
+                      <div
+                        className="image"
+                        style={{
+                          backgroundImage:
+                            'url("' + review.review_img_url + '")',
+                        }}></div>
+                      <div className="review-card-text">
+                        <h3>{review.title}</h3>
+                        <h4>
+                          {review.owner} - {formatDate(review.created_at)}
+                        </h4>
+                        <div className="likes-and-comments-section">
+                          <div className="icon-ground">
+                            <span className="icon">
+                              <CommentsComponent />
+                            </span>
+                            <span className="text" id="comment-count">
+                              {review.comment_count}
+                            </span>
+                          </div>
+
+                          <div className="icon-ground">
+                            <span className="icon">
+                              <LikesComponent />
+                            </span>
+                            <span className="text">{review.votes}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </li>
-                </div>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-    </section>
+                  </Link>
+                </li>
+                <button
+                  key={review.votes}
+                  id="delete-review-button"
+                  onClick={() => {
+                    handleDeleteReview(review.review_id);
+                  }}>
+                  Delete
+                </button>
+              </>
+            );
+          })}
+        </ul>
+      </main>
+    </>
+    // <main className="reviews-section" id="reviews">
+    //   <Modal
+    //     isOpen={modalIsOpen}
+    //     onRequestClose={closeModal}
+    //     style={customStyles}>
+    //     {err
+    //       ? "Woops! Something went wrong. Please try again later."
+    //       : "Your review has been deleted successfully!"}
+    //   </Modal>
+    //   <div className="profile-container">
+    // <div className="profile-info">
+    //   <div className="profile-info-inner">
+    //     <h2>{user.username}</h2>
+    //     <h3>{user.name}</h3>
+    //     <img
+    //       src={user.avatar_url}
+    //       alt={user.username}
+    //       style={{ height: "100px", width: "100px" }}
+    //     />
+    //   </div>
+    // </div>
+    //     <div className="profile-articles">
+    //       <h2>My Reviews</h2>
+    //       <ul className="reviews-list">
+    //         {reviews.map((review) => {
+    //           return (
+    //             <li className="review-card" key={review.review_id}>
+    //               <Link to={`/reviews/${review.review_id}`}>
+    //                 <div className="revew-inner">
+    //                   <div
+    //                     className="image"
+    //                     style={{
+    //                       backgroundImage:
+    //                         'url("' + review.review_img_url + '")',
+    //                     }}></div>
+    //                   <div className="review-card-text">
+    //                     <h3>{review.title}</h3>
+    //                     <h4>
+    //                       {review.owner} - {formatDate(review.created_at)}
+    //                     </h4>
+    //                     <div className="likes-and-comments-section">
+    //                       <div className="icon-ground">
+    //                         <span className="icon">
+    //                           <CommentsComponent />
+    //                         </span>
+    //                         <span className="text" id="comment-count">
+    //                           {review.comment_count}
+    //                         </span>
+    //                       </div>
+
+    //                       <div className="icon-ground">
+    //                         <span className="icon">
+    //                           <LikesComponent />
+    //                         </span>
+    //                         <span className="text">{review.votes}</span>
+    //                         <button
+    //                           className="button-secondary"
+    //                           onClick={handleDeleteReview}>
+    //                           DELETE
+    //                         </button>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+    //                 </div>
+    //               </Link>
+    //             </li>
+    //           );
+    //         })}
+    //       </ul>
+    //     </div>
+    //   </div>
+    // </main>
   );
 };
 

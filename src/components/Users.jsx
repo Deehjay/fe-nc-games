@@ -14,7 +14,6 @@ const Users = () => {
   const navigateHome = useNavigate();
   const { setIsLoggedIn } = useContext(UserContext);
   const [err, setErr] = useState(null);
-  let subtitle;
   const {
     register,
     handleSubmit,
@@ -33,7 +32,6 @@ const Users = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
     const foundUser = users.find((user) => user.username === data.user);
     setUser(foundUser);
     setIsLoggedIn(true);
@@ -53,11 +51,15 @@ const Users = () => {
         <Form.Field>
           <label htmlFor="users">Select a user:</label>
           <select name="users" {...register("user", { required: true })}>
-            <option value="" selected disabled hidden>
+            <option value="" defaultValue={"Select..."} disabled hidden>
               Select...
             </option>
             {users.map((user) => {
-              return <option value={user.username}>{user.username}</option>;
+              return (
+                <option key={user.username} value={user.username}>
+                  {user.username}
+                </option>
+              );
             })}
           </select>
         </Form.Field>

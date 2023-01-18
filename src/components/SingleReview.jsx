@@ -68,13 +68,13 @@ const SingleReview = () => {
         <h4>
           by {review.owner} on {formatDate(review.created_at)}
         </h4>
-        <p>{review.review_body}</p>
+        <p id="review-body">{review.review_body}</p>
         <p id="like-text">
-          Like this review? -{" "}
+          Like this review?{" "}
           {hasVoted ? (
             <IconContext.Provider
               value={{
-                color: "#44C1D4",
+                color: "#1c3fb4",
                 backgroundColor: "blue",
                 className: "like-clicked",
               }}>
@@ -89,7 +89,7 @@ const SingleReview = () => {
             </IconContext.Provider>
           ) : (
             <IconContext.Provider
-              value={{ color: "#223d30", className: "like-unclicked" }}>
+              value={{ color: "#fff", className: "like-unclicked" }}>
               <button
                 onClick={() => {
                   like();
