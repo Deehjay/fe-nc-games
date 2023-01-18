@@ -20,9 +20,10 @@ const DesktopNav = ({ isLoggedIn, user }) => {
       </Link>
       {isLoggedIn ? (
         <div className="logged-in">
-          <Link to="/my-profile">
-            <img src={user.avatar_url} alt={user.username} />
-          </Link>
+          <a href="/my-profile">
+            <img id="nav-avatar" src={user.avatar_url} alt={user.username} />
+          </a>
+
           <Link to="/post-review">+</Link>
           <Link to="/" onClick={handleLogout}>
             Logout

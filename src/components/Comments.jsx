@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { deleteComment, getCommentsByReviewId, postComment } from "../api";
 import { formatDate } from "../utils/utils";
-import { BiLike } from "react-icons/bi";
 import Collapsible from "react-collapsible";
 import { UserContext } from "../contexts/users";
 import { confirmAlert } from "react-confirm-alert";
@@ -140,8 +139,10 @@ const Comments = () => {
             rows="4"
             placeholder="Your comment here..."
           />
-          <button className="post-comment-button">Post Comment</button>
-          <p className="warning">{loginPrompt}</p>
+          <p className="warning" id="comment-warning">
+            {loginPrompt}
+          </p>
+          <button className="post-comment-button">Comment</button>
         </form>
       </section>
       <Collapsible
@@ -164,11 +165,11 @@ const Comments = () => {
                     {comment.author} - {formatDate(comment.created_at)}
                   </h6>
                   <p>{comment.body}</p>
-                  {comment.body !== "COMMENT DELETED" ? (
-                    <span>
-                      <BiLike /> {comment.votes}
-                    </span>
-                  ) : null}
+                  {/* {comment.body !== "COMMENT DELETED" ? (
+                    // <span>
+                    //   <BiLike /> {comment.votes}
+                    // </span>
+                  ) : null} */}
                   {user.username === comment.author &&
                   comment.body !== "COMMENT DELETED" ? (
                     <button

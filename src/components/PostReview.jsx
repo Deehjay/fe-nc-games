@@ -113,12 +113,12 @@ const PostReview = () => {
           <select
             name="categories"
             {...register("category", { required: true })}>
-            <option value="" selected disabled hidden>
+            <option value="" defaultValue={"Select..."} disabled hidden>
               Select...
             </option>
             {categories.map((category) => {
               return (
-                <option value={category.slug}>
+                <option key={category.slug} value={category.slug}>
                   {formatCategory(category.slug)}
                 </option>
               );
