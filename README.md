@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# House of Games
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Summary
 
-## Available Scripts
+|                          |     |                                         |
+| ------------------------ | --- | --------------------------------------- |
+| **Deployed URL**         | :   | https://the-house-of-games.netlify.app/ |
+| **Backend API**          | :   | https://tuxedo-frog.cyclic.app/api/     |
+| **Backend Repo**         | :   | https://github.com/Deehjay/be-nc-games  |
+| **Minimum Node version** | :   | 18.11.0                                 |
 
-In the project directory, you can run:
+The House of Games serves as the frontend component for the full stack application I've made during my time with the award-winning bootcamp, Northcoders. The frontend works in tandem with the RESTful API created during the back-end review week (link above). This application has a multitude of features, such as allowing visitors to view board game reviews; to read individual reviews and comments; to post and delete their own reviews providing they are logged in, and more.
 
-### `npm start`
+Reviews can be sorted using the collapsible component below the website's header.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Running the website locally
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Cloning the repo
 
-### `npm test`
+Open your terminal and navigate to the directory you'd like to clone the repo to. Paste the following command into the terminal:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```shell
+$ git clone https://github.com/Deehjay/be-nc-games.git
+```
 
-### `npm run build`
+### Installing dependencies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Once the repo has been successfully cloned, install all dependencies using:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```shell
+$ npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Starting the local server
 
-### `npm run eject`
+Once all dependencies have been installed, the server can be started using:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```shell
+$ npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The locally hosted website should open automatically. If it doesn't, a link to the server will also be displayed in the terminal.
